@@ -1,0 +1,13 @@
+<!-- This section creates a content heading for the page -->
+
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+res.redirect('/')
+} %>
+
+<!-- This section creates a message block -->
+<%# messages() %>
+
+<!-- This section creates the grid view -->
+<%- grid %>
