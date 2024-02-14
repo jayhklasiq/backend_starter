@@ -38,7 +38,6 @@ header a {
 
 nav {
 	background-color: #242332;
-	color: white;
 	font-size: 20px;
 }
 
@@ -46,6 +45,7 @@ nav {
 	display: flex;
 	justify-content: space-around;
 	padding: 5px 0;
+	color: white;
 }
 
 nav li {
