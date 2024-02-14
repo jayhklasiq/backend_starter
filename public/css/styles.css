@@ -45,11 +45,20 @@ nav {
 	display: flex;
 	justify-content: space-around;
 	padding: 5px 0;
-	color: white;
 }
 
 nav li {
 	list-style: none;
+}
+
+nav li a {
+	text-decoration: none;
+	color: white;
+	font-weight: 900;
+}
+
+nav li a:hover {
+	color: aqua;
 }
 
 .hero-section {
