@@ -128,6 +128,14 @@ h2 {
 	font-weight: 800;
 }
 
+#inv-display li {
+	list-style: none;
+	border: 1px grey solid;
+	border-radius: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
 @media (max-width: 800px) {
 	.upgrade-n-reviews {
 		grid-template-rows: 1fr 1fr;
