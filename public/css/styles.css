@@ -128,12 +128,19 @@ h2 {
 	font-weight: 800;
 }
 
+#inv-display {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
 #inv-display li {
 	list-style: none;
 	border: 1px grey solid;
 	border-radius: 5px;
 	margin-bottom: 5px;
 	padding: 5px;
+	width: 220px;
 }
 
 @media (max-width: 800px) {
@@ -149,4 +156,35 @@ h2 {
 	.upgrades {
 		grid-gap: 10px;
 	}
+}
+
+/* Car Details Page */
+.car-details {
+	display: flex;
+	gap: 25px;
+}
+
+.car-details ul {
+	padding: 0;
+}
+.car-details li {
+	list-style: none;
+	padding-bottom: 12px;
+}
+
+@media (max-width: 800px) {
+	.car-details {
+		flex-wrap: wrap;
+	}
+
+	.car-details img {
+		width: -webkit-fill-available;
+	}
+}
+
+/* Error 500 Page */
+#e-500 {
+	background-color: rgba(0, 0, 0, 0.05);
+	padding: 20px;
+	border-radius: 5px;
 }
