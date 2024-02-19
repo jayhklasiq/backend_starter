@@ -9,9 +9,11 @@ const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
+const utilities = require('./utilities');
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
+const errorMiddleware = require('./routes/errorRoute');
 
 /* ***********************
  * View Engine and Templates
@@ -34,6 +36,8 @@ app.get("/", baseController.buildHome)
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
+//Error Route
+app.use('/error', errorMiddleware);
 
 /* ***********************
 * Express Error Handler

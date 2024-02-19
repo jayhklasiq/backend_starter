@@ -63,6 +63,29 @@ Util.buildClassificationGrid = async function (data) {
 
 
 
+/* ***************************
+ * Function to format vehicle information into HTML
+ ************************** */
+Util.buildVehicleInfo = async function (data) {
+  let vehicleDataSection = `
+  <div class="car-details">
+  <img src="${data.inv_image}" alt="Image of ${data.inv_make} ${data.inv_model}">
+    <section>
+        <h2>${data.inv_make} ${data.inv_model} Details</h2>
+        <ul>
+        <li><strong>Price:</strong> $${new Intl.NumberFormat('en-US').format(data.inv_price)}</li>
+            <li><strong>Description:</strong> ${data.inv_description}</li>
+            <li><strong>Color:</strong> ${data.inv_color}</li>
+            
+            <li><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(data.inv_miles)} miles</li>
+        </ul>
+    </section>
+
+  </div>
+    
+  `;
+  return vehicleDataSection;
+};
 
 
 
