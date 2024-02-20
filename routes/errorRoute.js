@@ -8,4 +8,10 @@ router.get('/trigger-error', (req, res, next) => {
   next(new Error(errorMessage));
 });
 
+
+router.get('/*', (req, res, next) => {
+  const errorMessage = errorController.get404Message();
+  next(new Error(errorMessage));
+});
+
 module.exports = router;

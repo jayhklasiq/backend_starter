@@ -39,6 +39,9 @@ app.use("/inv", inventoryRoute)
 //Error Route
 app.use('/error', errorMiddleware);
 
+app.use('/*', errorMiddleware);
+
+
 /* ***********************
 * Express Error Handler
 * Place after all other middleware

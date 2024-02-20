@@ -1,4 +1,4 @@
-// errorController.js
+
 
 // Function to get the error message
 const getErrorMessage = () => {
@@ -9,6 +9,17 @@ const getErrorMessage = () => {
   return server500;
 };
 
+
+const get404Message = () => {
+  const server404 = `
+  <div id="e-500">
+  <h3 class="error-500">This page does not exist. Please return to the Home Page.</h2>
+  </div>`
+  return server404;
+};
+
+
+
 module.exports = {
-  getErrorMessage
+  getErrorMessage, get404Message
 };
