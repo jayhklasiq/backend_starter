@@ -9,7 +9,7 @@ router.get('/trigger-error', (req, res, next) => {
 });
 
 
-router.get('/*', (req, res, next) => {
+router.get('*', (req, res, next) => {
   const errorMessage = errorController.get404Message();
   next(new Error(errorMessage));
 });

@@ -10,6 +10,7 @@
 body {
 	background-image: url("../images/site/small_check.jpg");
 	font-family: "Lato", Arial, Helvetica, sans-serif;
+	min-width: 520px;
 }
 
 #wrapper {
@@ -187,4 +188,95 @@ h2 {
 	background-color: rgba(0, 0, 0, 0.05);
 	padding: 20px;
 	border-radius: 5px;
+}
+
+/* Login Page & Register Page */
+.login-form,
+.register-form {
+	background-color: rgba(36, 35, 50, 0.7);
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 300px;
+	margin: 0 auto;
+}
+
+.login-form label,
+.register-form label {
+	display: block;
+	margin-bottom: 10px;
+	font-family: "Lustria";
+	font-size: large;
+	color: white;
+}
+
+.login-form input[type="email"],
+.register-form input[type="text"],
+.register-form input[type="email"] {
+	width: calc(100% - 20px);
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-size: 16px;
+}
+
+.login-form button[type="submit"],
+.register-form button[type="submit"] {
+	background-color: #8c00ff;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 16px;
+	display: block;
+	margin: 0 auto;
+	margin-top: 10px;
+}
+
+.login-form button[type="submit"],
+.register-form button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+.login-form p,
+p a {
+	color: white;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.error-message {
+	color: #70d60a;
+	margin: 5px;
+	font-size: 16px;
+	font-weight: 600;
+	display: block;
+}
+
+.toggle-password-checkbox,
+#toggle-password-label {
+	display: inline;
+}
+
+.toggle-password-checkbox {
+	width: 20px;
+	height: 18px;
+	margin-bottom: 0px;
+}
+
+#password {
+	margin-bottom: 5px;
+	width: calc(100% - 20px);
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-size: 16px;
+}
+
+.notice li {
+	list-style: none;
+	font-weight: bolder;
 }
