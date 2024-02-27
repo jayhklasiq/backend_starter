@@ -1,6 +1,15 @@
 <h1><%= title %></h1>
 
 <%- messages() %>
+
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
 <p>All fields are required.</p>
 <form class="register-form" action="/account/register" method="POST">
   <div>
