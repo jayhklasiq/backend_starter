@@ -280,3 +280,8 @@ p a {
 	list-style: none;
 	font-weight: bolder;
 }
+
+input:invalid {
+	background-color: #f19b5d; /* Brown color */
+	color: #fff; /* White text color */
+}
