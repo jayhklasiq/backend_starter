@@ -25,4 +25,28 @@ router.post(
   accountController.registerAccount
 )
 
+
+// // Process the login attempt
+// router.post(
+//   "/login",
+//   (req, res) => {
+//     res.status(200).send('login process')
+//   }
+// )
+
+// Process the login attempt
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  async (req, res, next) => {
+    await regValidate.checkLoginData(req, res, next);
+    (req, res) => {
+      res.status(200).send('login process');
+    };
+    next(); // Call next to proceed to the next middleware
+  }
+);
+
+
+
 module.exports = router;

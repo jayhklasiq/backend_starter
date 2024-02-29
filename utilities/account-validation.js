@@ -1,4 +1,5 @@
 const utilities = require(".")
+const accountModel = require("../models/account-model")
 const { body, validationResult } = require("express-validator")
 const validate = {}
 
@@ -24,7 +25,11 @@ validate.registationRules = () => {
       .trim()
       .isEmail()
       .normalizeEmail() // refer to validator.js docs
-      .withMessage("A valid email is required."),
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingEmail(account_email)
+        if (emailExists) throw new Error("This email address is already registered. Please login or use a different email.")
+      }),
 
     // password is required and must be strong password
     body("account_password")
@@ -39,7 +44,6 @@ validate.registationRules = () => {
       .withMessage("Password does not meet requirements."),
   ]
 }
-
 
 /* ******************************
  * Check data and return errors or continue to registration
@@ -62,5 +66,73 @@ validate.checkRegData = async (req, res, next) => {
   }
   next()
 }
+
+
+/*  **********************************
+ *  Login Data Validation Rules
+ * ********************************* */
+validate.loginRules = () => {
+  return [
+    body("account_email")
+      .trim()
+      .isEmail()
+      .normalizeEmail() // refer to validator.js docs
+      .withMessage("A valid email is required.")
+      .custom(async (account_email, { req }) => {
+        const emailExists = await accountModel.checkExistingEmail(account_email);
+        if (!emailExists) {
+          throw new Error("This email does not exist. Please create an account.");
+        }
+        // Store the emailExists result in the request object for later use
+        req.emailExists = emailExists;
+      }),
+
+    // password is required
+    body("account_password")
+      .trim()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Please provide a correct password."),
+  ]
+}
+/* ******************************
+ * Check data and return errors or continue to login
+ * ***************************** */
+validate.checkLoginData = async (req, res, next) => {
+  const { account_email, account_password } = req.body;
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("account/login", {
+      errors,
+      title: "Login",
+      nav,
+      account_email,
+    });
+    return;
+  }
+  
+
+  if (!req.emailExists) {
+    let nav = await utilities.getNav();
+    res.render("account/login", {
+      errors: [{ msg: "Invalid email or password." }],
+      title: "Login",
+      nav,
+      account_email,
+    });
+    return;
+  }
+
+  // Proceed to the next middleware if login data is valid
+  next();
+};
+
 
 module.exports = validate
