@@ -67,7 +67,6 @@ validate.checkRegData = async (req, res, next) => {
   next()
 }
 
-
 /*  **********************************
  *  Login Data Validation Rules
  * ********************************* */

@@ -22,3 +22,4 @@ node_modules
 
 #This file is generated when you run "pnpm install" in the terminal alongside "node_modules" folder.
 pnpm-lock.yaml
+
