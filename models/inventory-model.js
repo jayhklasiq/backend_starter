@@ -38,5 +38,16 @@ async function getVehicleDataById(inventoryId) {
   }
 }
 
+/* ***************************
+ *  This function adds a classification name to the classification table
+ * ************************** */
+async function addClassificationName(classification_name) {
+  try {
+    const sql = "INSERT INTO classification (classification_name) VALUEs ($1)"
+    return await pool.query(sql, [classification_name])
+  } catch (error) {
+    return error.message
+  }
+}
 
-module.exports = { getClassifications, getInventoryByClassificationId, getVehicleDataById };
+module.exports = { getClassifications, getInventoryByClassificationId, getVehicleDataById, addClassificationName };

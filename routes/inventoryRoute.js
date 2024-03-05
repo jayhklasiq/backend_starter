@@ -9,4 +9,10 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 
 router.get('/detail/:inventoryId', invController.viewInventoryItemDetail);
 
+router.get('/', invController.viewVehicleManagement);
+
+router.get('/add-classification', invController.viewAddClassificationName)
+
+router.post("/add-classification", invController.addClassificationName);
+
 module.exports = router;

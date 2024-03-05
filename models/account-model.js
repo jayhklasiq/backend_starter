@@ -27,7 +27,9 @@ async function checkExistingEmail(account_email) {
   }
 }
 
-
+/* *****************************
+*  Check for existing email and username
+* *************************** */
 async function checkExistingAccount(account_email, account_password) {
   try {
     const sql = "SELECT * FROM account WHERE account_email = $1 AND account_password = $2"
