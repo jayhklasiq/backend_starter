@@ -10,4 +10,52 @@
 </ul>
 <% } %>
 
+<form class="inventory-form" action="add-inventory" method="POST"
+  onsubmit="return validateForm()">
 
+  <label for="inv_make">Make</label>
+  <input type="text" id="inv_make" name="inv_make"
+    value="<%= locals.inv_make %>" required>
+
+  <label for="inv_model">Model</label>
+  <input type="text" id="inv_model" name="inv_model"
+    value="<%= locals.inv_model %>" required>
+
+  <label for="inv_year">Year</label>
+  <input type="number" id="inv_year" name="inv_year"
+    value="<%= locals.inv_year %>" required>
+
+  <label for="inv_description">Description</label>
+  <textarea id="inv_description" name="inv_description"
+    required><%= locals.inv_description %></textarea>
+
+  <label for="inv_image">Image</label>
+  <input type="file" id="inv_image" name="inv_image" accept="/images/vehicles/*"
+    required>
+
+  <label for="inv_thumbnail">Thumbnail</label>
+  <input type="file" id="inv_thumbnail" name="inv_thumbnail"
+    accept="/images/vehicles/*"
+    required>
+
+  <label for="inv_price">Price</label>
+  <input type="number" id="inv_price" name="inv_price"
+    value="<%= locals.inv_price %>" required>
+
+    <label for="inv_miles">Miles</label>
+  <input type="number" id="inv_miles" name="inv_miles"
+    value="<%= locals.inv_miles %>" required>
+
+  <label for="inv_color">Color</label>
+  <input type="text" id="inv_color" name="inv_color"
+    value="<%= locals.inv_color %>" required>
+
+  <label for="classification">Classification</label>
+    <%- select %>
+  </select>
+
+  <button type="submit">Add Vehicle</button>
+  <span id="form-error" class="notice"></span>
+</form>
+
+<!-- <script src="/js/script.js"></script> -->

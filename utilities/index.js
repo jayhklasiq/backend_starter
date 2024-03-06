@@ -1,4 +1,6 @@
 const invModel = require("../models/inventory-model")
+const { body, validationResult } = require("express-validator")
+const utilities = require(".")
 const Util = {}
 
 /* ************************
@@ -25,6 +27,24 @@ Util.getNav = async function (req, res, next) {
 }
 
 
+
+/* ************************
+ * Build the dropdown menu on the add-inventory page
+ ************************** */
+Util.buildDropDownList = async function () {
+  try {
+    let data = await invModel.getClassifications();
+    let select = "<select id=\"classification\" name=\"classification_id\" required>"
+    select += "<option value=''>Select Classification</option>";
+    data.rows.forEach((row) => {
+      select += `<option value='${row.classification_id}'>${row.classification_name}</option>`;
+    })
+    select += "</select>"
+    return select;
+  } catch (error) {
+    throw error;
+  }
+}
 
 
 
@@ -86,6 +106,7 @@ Util.buildVehicleInfo = async function (data) {
   `;
   return vehicleDataSection;
 };
+
 
 
 

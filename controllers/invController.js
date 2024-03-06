@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+const { validationResult } = require('express-validator');
 
 const invCont = {}
 
@@ -40,6 +41,10 @@ invCont.viewInventoryItemDetail = async function (req, res, next) {
   }
 };
 
+
+/* ***************************
+ * View Vehicle Management Page
+ * ************************** */
 invCont.viewVehicleManagement = async function (req, res, next) {
   try {
     const nav = await utilities.getNav();
@@ -53,6 +58,10 @@ invCont.viewVehicleManagement = async function (req, res, next) {
   }
 }
 
+
+/* ***************************
+ * View Add Classification Page
+ * ************************** */
 invCont.viewAddClassificationName = async function (req, res, next) {
   try {
     let nav = await utilities.getNav();
@@ -66,14 +75,21 @@ invCont.viewAddClassificationName = async function (req, res, next) {
   }
 };
 
+
+/* ***************************
+ * Process Add Classification Page Form
+ * ************************** */
 invCont.addClassificationName = async function (req, res, next) {
   try {
     const { classification_name } = req.body;
 
     // Server-side validation
     if (!classification_name.match(/^[A-Za-z]+$/)) {
-      req.flash("error", "Classification name must contain alphabetic characters only.");
-      return res.redirect("./add-classification");
+      req.flash("notice", "Classification name must contain alphabetic characters only.");
+      return res.status(500).render("inventory/add-classification", {
+        title: "Add Classification",
+        nav: await utilities.getNav(),
+      });
     }
 
     const registerNewClassification = await invModel.addClassificationName(classification_name)
@@ -83,10 +99,10 @@ invCont.addClassificationName = async function (req, res, next) {
         "notice",
         `Congratulations, you just added ${classification_name} as a classification. `
       );
-      return res.redirect("./");
+      res.status(201).redirect("./management");
     } else {
       req.flash("notice", "Sorry, the registration failed.")
-      return res.render("inventory/add-classification", {
+      return res.status(501).render("inventory/add-classification", {
         title: "Add Classification",
         nav: await utilities.getNav(),
       })
@@ -96,4 +112,139 @@ invCont.addClassificationName = async function (req, res, next) {
   }
 }
 
+
+/* ***************************
+ * View Add Vehicle Page
+ * ************************** */
+invCont.viewCarRegisterationPage = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav();
+    let select = await utilities.buildDropDownList();
+    res.render("inventory/add-inventory", {
+      title: "Add Vehicle",
+      nav,
+      select,
+      errors: null
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/* ***************************
+ * Process Add Vehicle Page Form
+ * ************************** */
+invCont.registerCarDetails = async function (req, res) {
+  let nav = await utilities.getNav();
+  let select = await utilities.buildDropDownList();
+
+  const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body;
+
+  const updateInventoryTable = await invModel.addCarDetailsToInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id)
+
+
+  if (updateInventoryTable) {
+    req.flash(
+      "notice",
+      `Congratulations, you just added a ${inv_make} vehicle. `
+    )
+    res.status(301).render("inventory/management", {
+      title: "Vehicle Management",
+      nav,
+      errors: null
+    })
+  } else {
+    req.flash("notice", "Vehicle registration failed.");
+    return res.status(500).render("inventory/add-inventory", {
+      title: "Add Vehicle",
+      nav,
+      select,
+      errors: null
+    });
+  }
+}
+
 module.exports = invCont
+
+
+
+// invCont.registerCarDetails = async function (req, res, next) {
+//   try {
+//     let nav = await utilities.getNav();
+//     let select = await utilities.buildDropDownList();
+
+//     const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body;
+
+//     // Server-side validation
+
+//     // Server-side validation
+//     const errors = [];
+
+//     if (!inv_make) {
+//       errors.push("Make is required.");
+//     }
+
+//     if (!inv_model) {
+//       errors.push("Model is required.");
+//     }
+
+//     if (!inv_year) {
+//       errors.push("Year is required.");
+//     } else if (!Number.isInteger(parseInt(inv_year)) || inv_year < 1900 || inv_year > new Date().getFullYear()) {
+//       errors.push("Invalid year.");
+//     }
+
+//     if (!inv_description) {
+//       errors.push("Description is required.");
+//     }
+
+//     if (!inv_image) {
+//       errors.push("Image is required.");
+//     }
+
+//     if (!inv_thumbnail) {
+//       errors.push("Thumbnail is required.");
+//     }
+
+//     if (!inv_price) {
+//       errors.push("Price is required.");
+//     }
+
+//     if (!inv_miles) {
+//       errors.push("Miles is required.");
+//     }
+
+//     if (!inv_color) {
+//       errors.push("Color is required.");
+//     }
+
+//     if (!classification_id) {
+//       errors.push("Classification is required.");
+//     }
+
+//     if (errors.length > 0) {
+//       // If there are validation errors, render the form again with error messages
+//       return res.status(400).render("inventory/add-inventory", {
+//         title: "Add Vehicle",
+//         nav,
+//         select,
+//         errors
+//       })
+//     }
+
+//     const updateInventoryTable = await invModel.addCarDetailsToInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id);
+
+//     if (updateInventoryTable) {
+//       req.flash(
+//         "notice",
+//         `Congratulations, you just added a ${inv_make} vehicle. `
+//       );
+//       return res.status(201).redirect("./management");
+//     } else {
+//       req.flash("notice", "Vehicle registration failed.");
+//       return res.status(500).redirect("inventory/add-inventory");
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// }

@@ -192,7 +192,9 @@ h2 {
 
 /* Login Page & Register Page */
 .login-form,
-.register-form {
+.register-form,
+.add-class-form,
+.inventory-form {
 	background-color: rgba(36, 35, 50, 0.7);
 	padding: 20px;
 	border-radius: 5px;
@@ -202,7 +204,9 @@ h2 {
 }
 
 .login-form label,
-.register-form label {
+.register-form label,
+.add-class-form label,
+.inventory-form label {
 	display: block;
 	margin-bottom: 10px;
 	font-family: "Lustria";
@@ -212,7 +216,11 @@ h2 {
 
 .login-form input[type="email"],
 .register-form input[type="text"],
-.register-form input[type="email"] {
+.register-form input[type="email"],
+.add-class-form input[type="text"],
+.inventory-form input[type="text"],
+.inventory-form input[type="number"],
+.inventory-form input[type="file"], .inventory-form select {
 	width: calc(100% - 20px);
 	padding: 10px;
 	margin-bottom: 20px;
@@ -222,7 +230,9 @@ h2 {
 }
 
 .login-form button[type="submit"],
-.register-form button[type="submit"] {
+.register-form button[type="submit"],
+.add-class-form button[type="submit"],
+.inventory-form button[type="submit"] {
 	background-color: #8c00ff;
 	color: #fff;
 	padding: 10px 20px;
@@ -236,7 +246,9 @@ h2 {
 }
 
 .login-form button[type="submit"],
-.register-form button[type="submit"]:hover {
+.register-form button[type="submit"]:hover,
+.add-class-form button[type="submit"]:hover,
+.inventory-form button[type="submit"]:hover {
 	background-color: #0056b3;
 }
 

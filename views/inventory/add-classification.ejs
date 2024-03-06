@@ -2,19 +2,11 @@
 
 <%- messages() %>
 
-<% if (errors) { %>
-<ul class="notice">
-  <% errors.array().forEach(error => { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-</ul>
-<% } %>
-
-<p>FIELS IS REQUIRED.</p>
-<form action="./add-classification" method="POST">
+<p>FIELD IS REQUIRED.</p>
+<form class="add-class-form" action="add-classification" method="POST">
 
   <label for="classification-name">Classification Name</label>
-  <p>NAME MUST BE ALPHABETIC CHARACTERS ONLY.</p>
+  <span class="error-message">NAME MUST BE ALPHABETIC CHARACTERS ONLY.</span>
   <input type="text" id="classification-name" name="classification_name"
     required pattern="[A-Za-z]+">
   <button type="submit">Add Classification</button>

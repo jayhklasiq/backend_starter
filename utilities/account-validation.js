@@ -116,7 +116,7 @@ validate.checkLoginData = async (req, res, next) => {
     });
     return;
   }
-  
+
 
   if (!req.emailExists) {
     let nav = await utilities.getNav();
