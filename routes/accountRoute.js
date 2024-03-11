@@ -21,8 +21,7 @@ router.post(
   async (req, res, next) => {
     await regValidate.checkRegData(req, res, next)
   },
-  handleError,
-  accountController.registerAccount
+  accountController.registerAccount, handleError
 )
 
 
@@ -31,11 +30,13 @@ router.post(
   "/login",
   regValidate.loginRules(),
   async (req, res, next) => {
-    await regValidate.checkLoginData(req, res, next);
-    (req, res) => {
+    try {
+      await regValidate.checkLoginData(req, res, next);
+      // Send "login process" response
       res.status(200).send('login process');
-    };
-    next(); // Call next to proceed to the next middleware
+    } catch (error) {
+      next(error); // Forward any errors to the error handler
+    }
   }
 );
 
