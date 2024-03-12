@@ -5,7 +5,6 @@ const handleError = require('../routes/errorRoute');
 const regValidate = require('../utilities/account-validation');
 
 
-
 //Route to build the login page
 router.get('/login', accountController.buildLogin, handleError);
 
@@ -22,24 +21,17 @@ router.post(
     await regValidate.checkRegData(req, res, next)
   },
   accountController.registerAccount, handleError
-)
+);
 
 
 // Process the login attempt
 router.post(
   "/login",
   regValidate.loginRules(),
-  async (req, res, next) => {
-    try {
-      await regValidate.checkLoginData(req, res, next);
-      // Send "login process" response
-      res.status(200).send('login process');
-    } catch (error) {
-      next(error); // Forward any errors to the error handler
-    }
-  }
+  regValidate.checkLoginData,
+  accountController.accountLogin, handleError
 );
 
-
+router.get("/account_management", accountController.accountLoginSuccess, handleError)
 
 module.exports = router;
