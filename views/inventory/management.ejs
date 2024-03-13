@@ -17,3 +17,14 @@ res.redirect('/')
 <a class="v-mgt" href="add-classification">Add New
   Classification</a>
 <a class="v-mgt" href="add-inventory">Add New Vehicle</a>
+
+<h2>Manage Inventory</h2>
+<p>Select a classification from the list to see items belonging to the
+  classification.</p>
+<%- classification %>
+
+<table class="table" id="inventoryDisplay"></table>
+
+<noscript>JavaScript must be enabled to use this page.</noscript>
+
+<script src="/js/script.js"></script>

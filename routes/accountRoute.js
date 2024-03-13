@@ -3,6 +3,7 @@ const router = express.Router();
 const accountController = require('../controllers/accountController');
 const handleError = require('../routes/errorRoute');
 const regValidate = require('../utilities/account-validation');
+const Util = require('../utilities');
 
 
 //Route to build the login page
@@ -32,6 +33,7 @@ router.post(
   accountController.accountLogin, handleError
 );
 
-router.get("/account_management", accountController.accountLoginSuccess, handleError)
+
+router.get("/", Util.checkLogin, accountController.accountLoginSuccess, handleError)
 
 module.exports = router;

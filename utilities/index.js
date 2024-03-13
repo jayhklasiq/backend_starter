@@ -30,7 +30,6 @@ Util.getNav = async function (req, res, next) {
 }
 
 
-
 /* ************************
  * Build the dropdown menu on the add-inventory page
  ************************** */
@@ -48,8 +47,6 @@ Util.buildDropDownList = async function () {
     throw error;
   }
 }
-
-
 
 /* **************************************
 * Build the classification view HTML
@@ -84,8 +81,6 @@ Util.buildClassificationGrid = async function (data) {
   return grid
 }
 
-
-
 /* ***************************
  * Function to format vehicle information into HTML
  ************************** */
@@ -110,7 +105,6 @@ Util.buildVehicleInfo = async function (data) {
   return vehicleDataSection;
 };
 
-
 /* ****************************************
 * Middleware to check token validity
 **************************************** */
@@ -134,5 +128,16 @@ Util.checkJWTToken = (req, res, next) => {
   }
 }
 
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+}
 
 module.exports = Util

@@ -13,7 +13,6 @@ if (currentUrl.endsWith("/register")) {
 }
 
 
-
 if (currentUrl.endsWith("/register") || currentUrl.endsWith("/login")) {
   document.addEventListener("DOMContentLoaded", function () {
     var toggleCheckbox = document.getElementById("toggle-password-checkbox");
@@ -29,76 +28,52 @@ if (currentUrl.endsWith("/register") || currentUrl.endsWith("/login")) {
   });
 }
 
+if (currentUrl.endsWith("/inv")) {
+  'use strict'
 
 
-if (currentUrl.endsWith("/add-inventory")) {
+  let classificationList = document.getElementById('classification')
+  classificationList.addEventListener('change', function () {
+    let classification_id = classificationList.value
+    console.log(`classification_is is: ${classification_id}`)
+    let classIdURL = "/inv/getInventory/" + classification_id
+    fetch(classIdURL)
+      .then(function (response) {
+        if (response.ok) {
+          return response.json();
+        }
+        throw Error("Network response was not OK");
+      })
+      .then(function (data) {
+        console.log(data);
+        buildInventoryList(data);
+      })
+      .catch(function (error) {
+        console.log('There was a problem: ', error.message)
+      })
+  })
 
-  function validateForm() {
-    // Get form inputs
-    const make = document.getElementById("inv_make").value.trim();
-    const model = document.getElementById("inv_model").value.trim();
-    const year = document.getElementById("inv_year").value.trim();
-    const description = document.getElementById("inv_description").value.trim();
-    const image = document.getElementById("inv_image").value.trim();
-    const thumbnail = document.getElementById("inv_thumbnail").value.trim();
-    const price = document.getElementById("inv_price").value.trim();
-    const color = document.getElementById("inv_color").value.trim();
 
-    // Store all input fields in an array
-    const inputs = [
-      { value: make, name: "Make" },
-      { value: model, name: "Model" },
-      { value: year, name: "Year" },
-      { value: description, name: "Description" },
-      { value: image, name: "Image" },
-      { value: thumbnail, name: "Thumbnail" },
-      { value: price, name: "Price" },
-      { value: color, name: "Color" }
-    ];
 
-    // Array to store invalid fields
-    const invalidInputs = [];
-
-    // Perform validation for each input
-    inputs.forEach(input => {
-      if (input.value === "") {
-        invalidInputs.push(input.name);
-      }
-    });
-
-    // Additional validation for specific fields (e.g., year, price)
-    const currentYear = new Date().getFullYear();
-    if (year === "" || isNaN(year) || parseInt(year) < 1900 || parseInt(year) > currentYear) {
-      invalidInputs.push("Year");
-    }
-
-    if (isNaN(price) || parseFloat(price) <= 0) {
-      invalidInputs.push("Price");
-    }
-
-    // If there are invalid inputs, display error messages
-    if (invalidInputs.length > 0) {
-      // Clear previous error messages
-      const errorList = document.getElementsByClassName("notice");
-      errorList.innerHTML = "";
-
-      // Populate error messages
-      invalidInputs.forEach(input => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `${input} is required or invalid.`;
-        errorList.appendChild(listItem);
-      });
-
-      // // Display error message container
-      // const errorContainer = document.getElementById("error-container");
-      // errorContainer.style.display = "block";
-
-      // Prevent form submission
-      return false;
-    }
-
-    // Validation passed
-    return true;
+  // Build inventory items into HTML table components and inject into DOM 
+  function buildInventoryList(data) {
+    let inventoryDisplay = document.getElementById("inventoryDisplay");
+    // Set up the table labels 
+    let dataTable = '<thead>';
+    dataTable += '<tr><th>Vehicle Name</th><td>&nbsp;</td><td>&nbsp;</td></tr>';
+    dataTable += '</thead>';
+    // Set up the table body 
+    dataTable += '<tbody>';
+    // Iterate over all vehicles in the array and put each in a row 
+    data.forEach(function (element) {
+      console.log(element.inv_id + ", " + element.inv_model);
+      dataTable += `<tr><td>${element.inv_make} ${element.inv_model}</td>`;
+      dataTable += `<td><a href='/inv/edit/${element.inv_id}' title='Click to update'>Modify</a></td>`;
+      dataTable += `<td><a href='/inv/delete/${element.inv_id}' title='Click to delete'>Delete</a></td></tr>`;
+    })
+    dataTable += '</tbody>';
+    // Display the contents in the Inventory Management view 
+    inventoryDisplay.innerHTML = dataTable;
   }
-
 }
+
