@@ -10,7 +10,7 @@
 </ul>
 <% } %>
 
-<form class="inventory-form" action="add-inventory" method="POST"
+<form class="inventory-form" action="edit-inventory" method="POST"
   onsubmit="return validateForm()">
 
   <label for="inv_make">Make</label>
@@ -30,12 +30,12 @@
     required><%= locals.inv_description %></textarea>
 
   <label for="inv_image">Image</label>
-  <input type="text" id="inv_image" name="inv_image" accept="/images/vehicles/*"
+  <input type="text" id="inv_image" name="inv_image" accept="/images/vehicles/*" value="<%= locals.inv_image %>"
     required>
 
   <label for="inv_thumbnail">Thumbnail</label>
   <input type="text" id="inv_thumbnail" name="inv_thumbnail"
-    accept="/images/vehicles/*"
+    accept="/images/vehicles/*" value="<%= locals.inv_thumbnail %>"
     required>
 
   <label for="inv_price">Price</label>
@@ -54,7 +54,7 @@
     <%- select %>
   </select>
 
-  <button type="submit">Add Vehicle</button>
+  <button type="submit">Update Vehicle</button>
   <span id="form-error" class="notice"></span>
 </form>
 

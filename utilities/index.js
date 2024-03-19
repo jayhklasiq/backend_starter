@@ -33,20 +33,25 @@ Util.getNav = async function (req, res, next) {
 /* ************************
  * Build the dropdown menu on the add-inventory page
  ************************** */
-Util.buildDropDownList = async function () {
-  try {
-    let data = await invModel.getClassifications();
-    let select = "<select id=\"classification\" name=\"classification_id\" required>"
-    select += "<option value=''>Select Classification</option>";
-    data.rows.forEach((row) => {
-      select += `<option value='${row.classification_id}'>${row.classification_name}</option>`;
-    })
-    select += "</select>"
-    return select;
-  } catch (error) {
-    throw error;
-  }
-}
+Util.buildDropDownList = async function (classification_id = null) {
+  let data = await invModel.getClassifications();
+  let classificationList =
+    '<select name="classification_id" id="classification">';
+  classificationList += "<option>Choose a Classification</option>";
+  data.rows.forEach((row) => {
+    classificationList += '<option value="' + row.classification_id + '"';
+    if (
+      classification_id != null &&
+      row.classification_id == classification_id
+    ) {
+      classificationList += " selected ";
+    }
+    classificationList += ">" + row.classification_name + "</option>";
+  });
+  classificationList += "</select>";
+  return classificationList;
+};
+
 
 /* **************************************
 * Build the classification view HTML

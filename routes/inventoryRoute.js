@@ -27,6 +27,12 @@ router.post(
   }, invController.registerCarDetails
 )
 
-
 router.get("/getInventory/:classification_id", invController.getInventoryJSON)
+
+router.get("/edit-inventory/:inventoryId", async (req, res, next) => {
+  const inventoryId = req.params.inventoryId;
+  invController.editCarInventory(req, res, next, inventoryId);
+});
+
+
 module.exports = router; 0

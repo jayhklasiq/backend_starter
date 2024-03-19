@@ -99,6 +99,7 @@ validate.loginRules = () => {
       .withMessage("Please provide a correct password."),
   ]
 }
+
 /* ******************************
  * Check data and return errors or continue to login
  * ***************************** */
@@ -132,6 +133,5 @@ validate.checkLoginData = async (req, res, next) => {
   // Proceed to the next middleware if login data is valid
   next();
 };
-
 
 module.exports = validate

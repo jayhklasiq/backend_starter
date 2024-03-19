@@ -42,7 +42,7 @@ invCont.viewInventoryItemDetail = async function (req, res, next) {
 
 
 /* ***************************
- * View Vehicle Management Page
+ * View Vehicle/Inventory Management Page
  * ************************** */
 invCont.viewVehicleManagement = async function (req, res, next) {
   try {
@@ -172,12 +172,44 @@ invCont.registerCarDetails = async function (req, res) {
 invCont.getInventoryJSON = async (req, res, next) => {
   const classification_id = parseInt(req.params.classification_id)
   const invData = await invModel.getInventoryByClassificationId(classification_id)
-  if (invData[0].inv_id) {
-    return res.json(invData)
+  if (invData.length > 0 && invData[0].inv_id) {
+      return res.json(invData)
   } else {
+    // res.flash("notice", "No data found in this classification.")
     next(new Error("No data returned"))
   }
 }
 
+/* ***************************
+ * Build edit inventory view / Modify Inventory Form (Update Inventory)
+ * ************************** */
+invCont.editCarInventory = async function (req, res, next) {
+  try {
+    const inventoryId = parseInt(req.params.inventoryId)
+    let nav = await utilities.getNav();
+    const itemData = await invModel.getVehicleDataById(inventoryId)
+    const select = await utilities.buildDropDownList(itemData.classification_id)
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+    res.render("./inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      select: select,
+      errors: null,
+      inv_id: itemData.inv_id,
+      inv_make: itemData.inv_make,
+      inv_model: itemData.inv_model,
+      inv_year: itemData.inv_year,
+      inv_description: itemData.inv_description,
+      inv_image: itemData.inv_image,
+      inv_thumbnail: itemData.inv_thumbnail,
+      inv_price: itemData.inv_price,
+      inv_miles: itemData.inv_miles,
+      inv_color: itemData.inv_color,
+      classification_id: itemData.classification_id
+    })
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = invCont
