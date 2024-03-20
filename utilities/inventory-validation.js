@@ -9,6 +9,12 @@ const validate = {}
  *  Add Vehicle Data Validation Rules
  * ********************************* */
 validate.validateVehicleInfoRules = () => {
+  const isValidImageUrl = (value) => {
+    // Define a regular expression pattern to match the expected URL format
+    const urlPattern = /^\/images\/vehicles\/.+\.png$/;
+    // Check if the value matches the pattern
+    return urlPattern.test(value);
+  };
   return [
     body("inv_make")
       .trim()
@@ -32,13 +38,23 @@ validate.validateVehicleInfoRules = () => {
 
     body("inv_image")
       .trim()
-      .isURL()
-      .withMessage("Invalid image URL"),
+      .custom((value) => {
+        // Use the custom validation function to check the URL
+        if (!isValidImageUrl(value)) {
+          throw new Error("Invalid image URL");
+        }
+        return true;
+      }),
 
     body("inv_thumbnail")
       .trim()
-      .isURL()
-      .withMessage("Invalid thumbnail URL"),
+      .custom((value) => {
+        // Use the custom validation function to check the URL
+        if (!isValidImageUrl(value)) {
+          throw new Error("Invalid thumbnail URL");
+        }
+        return true;
+      }),
 
     body("inv_price")
       .trim()
@@ -73,14 +89,40 @@ validate.checkInputedVehicleInfo = async (req, res, next) => {
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     let select = await utilities.buildDropDownList()
-    res.render("inventory/add-inventory", {
+    return res.render("inventory/add-inventory", {
       errors,
-      title: "Add Vehicle",
+      title: "Add Inventory",
       nav,
       select,
       errors,
       inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id
-    })
+    }
+    )
+  }
+  next()
+}
+
+
+/* ******************************
+ * Check data and return errors or continue to update car details/inventory
+ * ***************************** */
+validate.checkUpdatededVehicleInfo = async (req, res, next) => {
+  const { inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body;
+
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    let select = await utilities.buildDropDownList()
+    return res.render("inventory/edit-inventory", {
+      errors,
+      title: "Edit Inventory",
+      nav,
+      select,
+      errors,
+      inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id, inv_id
+    }
+    )
   }
   next()
 }

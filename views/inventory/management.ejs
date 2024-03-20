@@ -14,14 +14,14 @@ res.redirect('/')
 </ul>
 <% } %>
 
-<a class="v-mgt" href="add-classification">Add New
+<a class="v-mgt" href="inv/add-classification">Add New
   Classification</a>
-<a class="v-mgt" href="add-inventory">Add New Vehicle</a>
+<a class="v-mgt" href="inv/add-inventory">Add New Vehicle</a>
 
 <h2>Manage Inventory</h2>
 <p>Select a classification from the list to see items belonging to the
   classification.</p>
-<%- classification %>
+<%- select %>
 
 <table class="table" id="inventoryDisplay"></table>
 

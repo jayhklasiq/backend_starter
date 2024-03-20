@@ -34,5 +34,10 @@ router.get("/edit-inventory/:inventoryId", async (req, res, next) => {
   invController.editCarInventory(req, res, next, inventoryId);
 });
 
+router.post("/edit-inventory/:inventoryId", invValidate.validateVehicleInfoRules(),
+  async (req, res, next) => {
+    await invValidate.checkUpdatededVehicleInfo(req, res, next)
+  }, invController.updateInventory)
 
-module.exports = router; 0
+
+module.exports = router;
