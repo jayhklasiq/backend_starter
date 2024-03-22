@@ -4,6 +4,7 @@ const utilities = require(".")
 const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
+const acctModel = require("../models/account-model")
 
 
 /* ************************
@@ -144,5 +145,6 @@ Util.checkLogin = (req, res, next) => {
     return res.redirect("/account/login")
   }
 }
+
 
 module.exports = Util

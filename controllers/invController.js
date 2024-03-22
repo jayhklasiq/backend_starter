@@ -2,6 +2,7 @@ const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
 const { validationResult } = require('express-validator');
 
+
 const invCont = {}
 
 /* ***************************
@@ -52,7 +53,7 @@ invCont.viewVehicleManagement = async function (req, res, next) {
       title: "Vehicle Management",
       nav,
       select,
-      errors: null
+      errors: null,
     });
   } catch (error) {
     next(error);
@@ -250,7 +251,7 @@ invCont.updateInventory = async function (req, res, next) {
   if (updateResult) {
     const itemName = updateResult.inv_make + " " + updateResult.inv_model
     req.flash("notice", `The ${itemName} was successfully updated.`)
-    res.redirect("/inv/")
+    res.redirect("/inv")
   } else {
     const classificationSelect = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`

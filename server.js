@@ -20,10 +20,18 @@ const accountRoute = require("./routes/accountRoute");
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const jwt = require("jsonwebtoken");
+const validate = require("./utilities/account-validation")
 
 /* ***********************
  * Middleware
  * ************************/
+// const checkLoggedIn = (req, res, next) => {
+//   // Assuming you have a way to check if the user is authenticated
+//   res.locals.loggedin = validate.checkLoginData;
+//   next();
+// };
+
+
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -47,6 +55,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) //for parsing application/x-www-form-urlencoded
 app.use(cookieParser())
 app.use(utilities.checkJWTToken)
+// app.use(checkLoggedIn)
 
 /* ***********************
  * View Engine and Templates
@@ -54,6 +63,13 @@ app.use(utilities.checkJWTToken)
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
+
+
+// Serve favicon
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "images", "favicon.ico"));
+});
+
 
 
 
@@ -87,6 +103,15 @@ app.use(async (err, req, res, next) => {
     });
   next()
 })
+
+
+
+/* ***********************
+ * Handle login and logout
+ *************************/
+
+
+
 
 /* ***********************
  * Local Server Information
