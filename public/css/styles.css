@@ -190,11 +190,13 @@ h2 {
 	border-radius: 5px;
 }
 
-/* Login Page & Register Page */
+/* Forms Design */
 .login-form,
 .register-form,
 .add-class-form,
-.inventory-form {
+.inventory-form,
+.acct-update-form,
+.pwd-update-form {
 	background-color: rgba(36, 35, 50, 0.7);
 	padding: 20px;
 	border-radius: 5px;
@@ -206,7 +208,9 @@ h2 {
 .login-form label,
 .register-form label,
 .add-class-form label,
-.inventory-form label {
+.inventory-form label,
+.acct-update-form label,
+.pwd-update-form label {
 	display: block;
 	margin-bottom: 10px;
 	font-family: "Lustria";
@@ -220,7 +224,10 @@ h2 {
 .add-class-form input[type="text"],
 .inventory-form input[type="text"],
 .inventory-form input[type="number"],
-.inventory-form input[type="file"], .inventory-form select {
+.inventory-form input[type="file"],
+.inventory-form select,
+.acct-update-form input[type="text"],
+.acct-update-form input[type="email"] {
 	width: calc(100% - 20px);
 	padding: 10px;
 	margin-bottom: 20px;
@@ -232,7 +239,9 @@ h2 {
 .login-form button[type="submit"],
 .register-form button[type="submit"],
 .add-class-form button[type="submit"],
-.inventory-form button[type="submit"] {
+.inventory-form button[type="submit"],
+.acct-update-form button[type="submit"],
+.pwd-update-form button[type="submit"] {
 	background-color: #8c00ff;
 	color: #fff;
 	padding: 10px 20px;
@@ -248,7 +257,9 @@ h2 {
 .login-form button[type="submit"],
 .register-form button[type="submit"]:hover,
 .add-class-form button[type="submit"]:hover,
-.inventory-form button[type="submit"]:hover {
+.inventory-form button[type="submit"]:hover,
+.acct-update-form button[type="submit"]:hover,
+.pwd-update-form button[type="submit"]:hover {
 	background-color: #0056b3;
 }
 
@@ -278,7 +289,10 @@ p a {
 	margin-bottom: 0px;
 }
 
-#password {
+#password,
+#current_password,
+#new_password,
+#confirm_password {
 	margin-bottom: 5px;
 	width: calc(100% - 20px);
 	padding: 10px;
@@ -300,7 +314,8 @@ input:invalid {
 }
 
 /* View Management Page and Sub pages */
-.v-mgt {
+.v-mgt,
+.inv-mgt-link {
 	display: block;
 	text-decoration: none;
 	font-family: "Lustria";
@@ -312,7 +327,11 @@ input:invalid {
 	font-weight: 900;
 }
 
-#classification{
+#classification {
 	padding: 12px;
 	border-radius: 5px;
+}
+
+.inv-mgt-link a {
+	color: #242332;
 }

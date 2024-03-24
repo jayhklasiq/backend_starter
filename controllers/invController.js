@@ -47,18 +47,24 @@ invCont.viewInventoryItemDetail = async function (req, res, next) {
  * ************************** */
 invCont.viewVehicleManagement = async function (req, res, next) {
   try {
-    const nav = await utilities.getNav();
-    let select = await utilities.buildDropDownList();
-    res.render("inventory/management", {
-      title: "Vehicle Management",
-      nav,
-      select,
-      errors: null,
-    });
+    if (res.locals.accountData.account_type === "Employee" || res.locals.accountData.account_type === "Admin") {
+      const nav = await utilities.getNav();
+      let select = await utilities.buildDropDownList();
+      res.render("inventory/management", {
+        title: "Vehicle Management",
+        nav,
+        select,
+        errors: null,
+      });
+    } else {
+      req.flash("notice", "You don't have permission to access this page.");
+      res.redirect("/");
+    }
   } catch (error) {
     next(error);
   }
 }
+
 
 
 /* ***************************

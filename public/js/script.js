@@ -12,22 +12,6 @@ if (currentUrl.endsWith("/register")) {
   }
 }
 
-
-if (currentUrl.endsWith("/register") || currentUrl.endsWith("/login")) {
-  document.addEventListener("DOMContentLoaded", function () {
-    var toggleCheckbox = document.getElementById("toggle-password-checkbox");
-    var passwordInput = document.getElementById("password");
-
-    toggleCheckbox.addEventListener("change", function () {
-      if (toggleCheckbox.checked) {
-        passwordInput.type = "text";
-      } else {
-        passwordInput.type = "password";
-      }
-    });
-  });
-}
-
 if (currentUrl.endsWith("/inv")) {
   'use strict'
 
@@ -76,4 +60,59 @@ if (currentUrl.endsWith("/inv")) {
     inventoryDisplay.innerHTML = dataTable;
   }
 }
+
+if (currentUrl.endsWith("/update_account")) {
+  // Function to check if new password and confirm password match
+  function checkPasswordMatch() {
+    var newPassword = document.getElementById("new_password").value;
+    var confirmPassword = document.getElementById("confirm_password").value;
+    var errorSpan = document.getElementById("password-mismatch-error");
+
+    if (newPassword !== confirmPassword) {
+      errorSpan.textContent = "Passwords do not match";
+      return false;
+    } else {
+      errorSpan.textContent = "";
+      return true;
+    }
+  }
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Get the password input fields and toggle checkbox from the login, register, and update account forms
+  var loginPasswordInput = document.querySelector(".login-form input[type='password']");
+  var registerPasswordInput = document.querySelector(".register-form input[type='password']");
+  var UpdatePasswordInputs = document.querySelectorAll(".pwd-update-form input[type='password']");
+  var toggleCheckbox = document.querySelectorAll(".toggle-password-checkbox");
+
+  // Check if the toggle checkbox and password inputs exist in the forms
+  if (toggleCheckbox && (loginPasswordInput || registerPasswordInput || UpdatePasswordInputs.length > 0)) {
+    // Add event listener to each toggle checkbox
+    toggleCheckbox.forEach(function (checkbox) {
+      checkbox.addEventListener("change", function () {
+        // Toggle the password visibility for the corresponding password input field
+        var passwordInputs;
+        if (checkbox.closest('.login-form')) {
+          passwordInputs = [loginPasswordInput];
+        } else if (checkbox.closest('.register-form')) {
+          passwordInputs = [registerPasswordInput];
+        } else if (checkbox.closest('.pwd-update-form')) {
+          passwordInputs = Array.from(UpdatePasswordInputs);
+        }
+
+        if (passwordInputs) {
+          passwordInputs.forEach(function (input) {
+            if (checkbox.checked) {
+              input.type = "text";
+            } else {
+              input.type = "password";
+            }
+          });
+        }
+      });
+    });
+  }
+});
+
 

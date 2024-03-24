@@ -33,7 +33,26 @@ router.post(
   accountController.accountLogin, handleError
 );
 
-
+//Deliver Account Management Page
 router.get("/", Util.checkLogin, accountController.accountLoginSuccess, handleError)
+
+
+// Deliver the account update view
+router.get("/update_account", Util.checkLogin, accountController.updateAccountPage, handleError);
+
+// Route to process the account update request
+router.post('/update_account', Util.checkLogin,
+  regValidate.updateAccountRules(),
+  regValidate.checkUpdateAccountData,
+  accountController.updateAccount);
+
+// Route to process the password update request
+router.post('/update_password', Util.checkLogin,
+  regValidate.updatePasswordRules(),
+  regValidate.checkUpdatePasswordData,
+  accountController.updatePassword);
+
+
+router.get("/logout", accountController.logout, handleError)
 
 module.exports = router;

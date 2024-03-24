@@ -35,7 +35,6 @@ async function buildRegister(req, res, next) {
 *  Process Registration
 * *************************************** */
 async function registerAccount(req, res) {
-  let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
   // Hash the password before storing
@@ -71,7 +70,6 @@ async function registerAccount(req, res) {
  *  Process login request
  * ************************************ */
 async function accountLogin(req, res) {
-  let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
   if (!accountData) {
@@ -106,5 +104,65 @@ async function accountLoginSuccess(req, res, next) {
   })
 }
 
+/* ****************************************
+ *  Deliver Update Account page
+ * ************************************ */
+async function updateAccountPage(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/update_account", {
+    title: "Update Account",
+    nav,
+    errors: null
+  })
+}
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, accountLoginSuccess }
+
+/* ****************************************
+ *  Process the account update request
+ * ************************************ */
+async function updateAccount(req, res, next) {
+  try {
+    const { account_firstname, account_lastname, account_email, account_id } = req.body;
+
+    await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email);
+
+    await accountModel.getAccountById(account_id);
+    req.flash("notice", `${account_firstname}, your account was updated successfully.`);
+    return res.redirect("account/account_management");
+  } catch (error) {
+    console.error("Error updating account information:", error);
+    next(error);
+  }
+}
+
+
+
+/* ****************************************
+ *  Process the password update request
+ * ************************************ */
+async function updatePassword(req, res, next) {
+  try {
+    const { new_password, account_id } = req.body;
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+
+    await accountModel.updatePassword(account_id, hashedPassword);
+    req.flash("notice", `${account_firstname}, your password updated successfully.`);
+    res.redirect("/account");
+  } catch (error) {
+    console.error("Error updating password:", error);
+    next(error);
+  }
+}
+
+
+/* ****************************************
+ *  Handle logout
+ * ************************************ */
+async function logout(req, res) {
+  res.clearCookie('jwt');
+  res.redirect('/');
+}
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, accountLoginSuccess, updateAccountPage, updateAccount, updatePassword, logout }

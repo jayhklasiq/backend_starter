@@ -1,0 +1,68 @@
+<h1><%= title %></h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<!-- Account Update Form -->
+<form class="acct-update-form" action="/account/update_account" method="POST">
+  <h2>Account Update</h2>
+  <label for="account_firstname">First Name:</label>
+  <input type="text" id="account_firstname" name="account_firstname"
+    value="<%= accountData.account_firstname %>" required>
+  <label for="account_lastname">Last Name:</label>
+  <input type="text" id="account_lastname" name="account_lastname"
+    value="<%= accountData.account_lastname %>" required>
+  <label for="account_email">Email Address:</label>
+  <input type="email" id="account_email" name="account_email"
+    value="<%= accountData.account_email %>" required>
+  <!-- Add hidden field for account_id -->
+  <input type="hidden" id="account_id" name="account_id"
+    value="<%= accountData.account_id %>">
+  <button type="submit">Update Account</button>
+</form>
+
+<!-- Change Password Form -->
+<form class="pwd-update-form mt-4" action="/account/update_password"
+  method="POST" onsubmit="return checkPasswordMatch();">
+  <h2>Change Password</h2>
+  <span id="password-mismatch-error" class="error-message"></span>
+
+  <label for="current_password">Current Password:</label>
+  <input type="password" id="current_password"
+    name="current_password"
+    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$" required>
+
+  <label for="new_password">New Password:</label>
+  <input type="password" id="new_password" name="new_password"
+    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$"
+    required>
+
+  <label for="confirm_password">Confirm New Password:</label>
+  <input type="password" id="confirm_password"
+    name="confirm_password"
+    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$" required>
+  <!-- Add hidden field for account_id -->
+  <input type="hidden" id="account_id" name="account_id"
+    value="<%= accountData.account_id %>">
+  <button type="submit">Change Password</button>
+
+  <div>
+    <input type="checkbox" id="toggle-password-checkbox"
+      class="toggle-password-checkbox">
+    <label for="toggle-password-checkbox" id="toggle-password-label">
+      <span>Show Password</span>
+    </label>
+  </div>
+  <span class="error-message">Password must be at least 12 characters long and
+    contain 1 uppercase letter and 1 lowercase letter, 1 number, and a special
+    character.</span>
+</form>
+
+<script src="/js/script.js"></script>
