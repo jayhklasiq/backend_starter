@@ -15,11 +15,6 @@ node_modules
 # .DS_Store is only for Mac users
 **/.DS_Store
 
-#Adding the .README.md file to the .gitignore file
-# will prevent the README.md file from being
-# uploaded to github.
-.README.md
-
 #This file is generated when you run "pnpm install" in the terminal alongside "node_modules" folder.
 pnpm-lock.yaml
 
