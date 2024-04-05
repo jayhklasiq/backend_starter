@@ -282,4 +282,25 @@ invCont.updateInventory = async function (req, res, next) {
   }
 }
 
+/* ***************************
+ * Display search results
+ * ************************** */
+invCont.searchResultPage = async function (req, res, next) {
+  try {
+    const searchInput = req.params.searchInput
+    const searchResults = await invModel.searchInventory(searchInput);
+    const grid = await utilities.buildSearchResultsGrid(searchResults);
+    const nav = await utilities.getNav();
+    res.render("inventory/searchpage", {
+      title: "Search Results",
+      nav,
+      grid,
+      errors: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 module.exports = invCont

@@ -99,6 +99,29 @@ async function updateCarInventory(
   } catch (error) {
     console.error("model error: " + error)
   }
-}          
+}
 
-module.exports = { getClassifications, getInventoryByClassificationId, getVehicleDataById, addClassificationName, addCarDetailsToInventory, updateCarInventory };
+
+/* ***************************
+ *  Search inventory by input
+ * ************************** */
+async function searchInventory(searchInput) {
+  try {
+    const data = await pool.query(
+      `SELECT * 
+      FROM public.inventory AS i 
+      JOIN public.classification AS c ON i.classification_id = c.classification_id 
+      WHERE 
+        i.inv_make ILIKE $1 OR
+        i.inv_model ILIKE $1 OR
+        i.inv_description ILIKE $1 OR
+        c.classification_name ILIKE $1`,
+      [searchInput])
+    return data.rows
+  } catch (error) {
+    return error.message
+  }
+}
+
+
+module.exports = { getClassifications, getInventoryByClassificationId, getVehicleDataById, addClassificationName, addCarDetailsToInventory, updateCarInventory, searchInventory };
