@@ -151,9 +151,10 @@ Util.checkLogin = (req, res, next) => {
  * Build the search results grid HTML
  ************************** */
 Util.buildSearchResultsGrid = async function (data) {
-  let grid
-  if (data.length > 0) {
-    grid = '<ul id="search-results">';
+  let grid = ''; // Initialize grid as an empty string
+
+  if (data && data.length > 0) { // Check if data is defined and not empty
+    grid += '<ul id="search-results">';
     data.forEach(vehicle => {
       grid += '<li>';
       grid += '<a href="../../inv/detail/' + vehicle.inv_id
@@ -177,6 +178,7 @@ Util.buildSearchResultsGrid = async function (data) {
   } else {
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
+
   return grid;
 };
 
