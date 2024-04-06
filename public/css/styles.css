@@ -135,7 +135,8 @@ h2 {
 	gap: 5px;
 }
 
-#inv-display li {
+#inv-display li,
+#search-results li {
 	list-style: none;
 	border: 1px grey solid;
 	border-radius: 5px;

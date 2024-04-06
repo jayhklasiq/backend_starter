@@ -107,6 +107,7 @@ async function updateCarInventory(
  * ************************** */
 async function searchInventory(searchInput) {
   try {
+    const searchTerm = `%${searchInput}%`;
     const data = await pool.query(
       `SELECT * 
       FROM public.inventory AS i 
@@ -116,12 +117,15 @@ async function searchInventory(searchInput) {
         i.inv_model ILIKE $1 OR
         i.inv_description ILIKE $1 OR
         c.classification_name ILIKE $1`,
-      [searchInput])
-    return data.rows
+      [searchTerm]
+    );
+
+    return data.rows;
   } catch (error) {
-    return error.message
+    return error.message;
   }
 }
+
 
 
 module.exports = { getClassifications, getInventoryByClassificationId, getVehicleDataById, addClassificationName, addCarDetailsToInventory, updateCarInventory, searchInventory };

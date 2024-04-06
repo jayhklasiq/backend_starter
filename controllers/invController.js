@@ -287,7 +287,7 @@ invCont.updateInventory = async function (req, res, next) {
  * ************************** */
 invCont.searchResultPage = async function (req, res, next) {
   try {
-    const searchInput = req.params.searchInput
+    const searchInput = req.query.searchInput
     const searchResults = await invModel.searchInventory(searchInput);
     const grid = await utilities.buildSearchResultsGrid(searchResults);
     const nav = await utilities.getNav();
