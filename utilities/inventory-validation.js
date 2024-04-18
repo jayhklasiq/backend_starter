@@ -126,5 +126,4 @@ validate.checkUpdatededVehicleInfo = async (req, res, next) => {
   }
   next()
 }
-
 module.exports = validate
